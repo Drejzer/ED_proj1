@@ -1,4 +1,4 @@
-extends PopupDialog
+extends Panel
 
 signal generate_table(cat_count)
 
@@ -11,7 +11,7 @@ export(int) var category_count=2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	call_deferred("popup_centered")
+	self.visible=true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -21,7 +21,7 @@ func _ready() -> void:
 
 func _on_Button_button_up() -> void:
 	emit_signal("generate_table",category_count)
-	self.hide()
+	self.visible=false
 
 
 func _on_LineEdit_value_changed(value: float) -> void:

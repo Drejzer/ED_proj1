@@ -62,8 +62,8 @@ func _on_PopupDialog_generate_table(cat_count) -> void:
 
 func _calc_traf_by_cat(n:int)->float:
 	var siz=categories.size()+1
-	var ok:=0
-	var total:=0
+	var ok:=0.0
+	var total:=0.0
 	for x in siz:
 		if x!=0:
 			for y in siz:
@@ -78,19 +78,19 @@ func _calc_traf_by_cat(n:int)->float:
 
 func _calc_spec_by_cat(n:int)->float:
 	var siz=categories.size()+1
-	var ok:=0
-	var total:=0
+	var tneg:=0.0
+	var fpos:=0.0
 	for x in siz:
 		if x!=0:
 			for y in siz:
 				if(y>0):
-					if (x==n+1 and y!=n+1) or (x!=n+1 and y==n+1):
-						total+=MistakeMatrix.get_child((y)*(siz)+x).value
+					if (x==n+1 and y!=n+1):
+						fpos+=MistakeMatrix.get_child((y)*(siz)+x).value
 					elif (x!=n+1 and y!=n+1):
-						ok+=MistakeMatrix.get_child((y)*(siz)+x).value
-						total+=MistakeMatrix.get_child((y)*(siz)+x).value
-	if total>0:
-		return round(ok*1000.0/total)/10.0
+						tneg+=MistakeMatrix.get_child((y)*(siz)+x).value
+						
+	if tneg+fpos>0:
+		return round(tneg*1000.0/(fpos+tneg))/10.0
 	else:
 		 return -1.0
 
@@ -101,9 +101,9 @@ func _calc_sens_by_cat(n:int)->float:
 	for x in siz:
 		if(x>0):
 			if (x==n+1):
-				ok+=MistakeMatrix.get_child((x)*(siz)+n+1).value
+				ok+=MistakeMatrix.get_child((n+1)*(siz)+x).value
 			else:
-				fneg+=MistakeMatrix.get_child((x)*(siz)+n+1).value
+				fneg+=MistakeMatrix.get_child((n+1)*(siz)+x).value
 	if ok+fneg>0:
 		return round(ok*1000.0/(ok+fneg))/10.0
 	else:
